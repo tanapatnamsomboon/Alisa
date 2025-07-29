@@ -1,5 +1,7 @@
 #pragma once
 
+#include "Alisa/Core/Base.h"
+
 int main(int argc, char** argv);
 
 namespace Alisa
