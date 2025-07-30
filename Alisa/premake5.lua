@@ -18,10 +18,15 @@ project "Alisa"
 	includedirs
 	{
 		"src",
+		"%{wks.location}/vendor/spdlog/include",
 	}
-	
+
 	filter "system:windows"
 		systemversion "latest"
+		buildoptions 
+		{
+			"/utf-8",
+		}
 		
 	filter "configurations:Debug"
 		defines "ALISA_DEBUG"

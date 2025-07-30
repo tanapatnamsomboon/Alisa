@@ -19,6 +19,7 @@ project "HelloAlisa"
 	{
 		"src",
 		"%{wks.location}/Alisa/src",
+		"%{wks.location}/vendor/spdlog/include",
 	}
 	
 	links
@@ -28,6 +29,10 @@ project "HelloAlisa"
 	
 	filter "system:windows"
 		systemversion "latest"
+		buildoptions
+		{
+			"/utf-8",
+		}
 		
 	filter "configurations:Debug"
 		runtime "Debug"
