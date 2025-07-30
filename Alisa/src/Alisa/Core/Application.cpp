@@ -11,6 +11,8 @@ namespace Alisa
 	{
 		assert(!s_Instance && "Application already created!");
 		s_Instance = this;
+
+		m_Window = Window::Create();
 	}
 
 	Application::~Application()
@@ -20,6 +22,10 @@ namespace Alisa
 
 	void Application::Run()
 	{
+		while (m_Running)
+		{
+			m_Window->OnUpdate();
+		}
 	}
 
 }
