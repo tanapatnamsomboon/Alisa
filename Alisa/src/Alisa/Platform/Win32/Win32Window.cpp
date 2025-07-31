@@ -1,6 +1,8 @@
 #include "pch.h"
 #include "Win32Window.h"
 
+#include "Alisa/Events/ApplicationEvent.h"
+
 namespace Alisa
 {
     LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
@@ -16,8 +18,11 @@ namespace Alisa
             switch (uMsg)
             {
             case WM_CLOSE:
-                PostQuitMessage(0);
+            {
+                WindowCloseEvent event;
+                window->m_Data.EventCallback(event);
                 return 0;
+            }
             default:
                 return DefWindowProc(hWnd, uMsg, wParam, lParam);
             }
@@ -44,6 +49,11 @@ namespace Alisa
             TranslateMessage(&msg);
             DispatchMessage(&msg);
         }
+    }
+
+    void Win32Window::SetEventCallback(const EventCallbackFn& callback)
+    {
+        m_Data.EventCallback = callback;
     }
 
     void Win32Window::Init(const WindowProps& props)

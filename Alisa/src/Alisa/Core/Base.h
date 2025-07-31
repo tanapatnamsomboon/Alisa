@@ -20,6 +20,8 @@
 #define ALISA_EXPAND_MACRO(x) x
 #define ALISA_STRINGIFY_MACRO(x) #x
 
+#define ALISA_BIT(x) (1 << x)
+
 namespace Alisa
 {
     template<typename T>

@@ -11,11 +11,26 @@ namespace Alisa
         s_Instance = this;
 
         m_Window = Window::Create();
+        m_Window->SetEventCallback([this](Event& e)
+            {
+                this->OnEvent(e);
+            }
+        );
     }
 
     Application::~Application()
     {
         s_Instance = nullptr;
+    }
+
+    void Application::OnEvent(Event& e)
+    {
+        EventDispatcher dispatcher(e);
+        dispatcher.Dispatch<WindowCloseEvent>([this](WindowCloseEvent& ev)
+            {
+                return OnWindowClose(ev);
+            }
+        );
     }
 
     void Application::Run()
@@ -25,4 +40,12 @@ namespace Alisa
             m_Window->OnUpdate();
         }
     }
+
+    bool Application::OnWindowClose(WindowCloseEvent& e)
+    {
+        ALISA_CORE_INFO("WindowCloseEvent received in Application.");
+        m_Running = false;
+        return true;
+    }
+
 } // namespace Alisa

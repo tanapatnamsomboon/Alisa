@@ -2,6 +2,8 @@
 
 #include "Alisa/Core/Base.h"
 #include "Alisa/Core/Window.h"
+#include "Alisa/Events/Event.h"
+#include "Alisa/Events/ApplicationEvent.h"
 
 int main(int argc, char** argv);
 
@@ -13,8 +15,12 @@ namespace Alisa
         Application();
         virtual ~Application();
 
+        virtual void OnEvent(Event& e);
+
     private:
         void Run();
+
+        bool OnWindowClose(WindowCloseEvent& e);
 
     private:
         Scope<Window> m_Window;
