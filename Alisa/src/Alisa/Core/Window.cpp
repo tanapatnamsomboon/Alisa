@@ -4,12 +4,12 @@
 
 namespace Alisa
 {
-	Scope<Window> Window::Create(const WindowProps& props /*= WindowProps()*/)
-	{
+    Scope<Window> Window::Create( const WindowProps& props )
+    {
 #	ifdef ALISA_PLATFORM_WINDOWS
-		return CreateScope<Win32Window>(props);
+        return CreateScope<Win32Window>(props);
 #	else
-		return nullptr;
+        return nullptr;
 #	endif
-	}
-}
+    }
+} // namespace Alisa

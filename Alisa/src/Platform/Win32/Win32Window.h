@@ -7,34 +7,36 @@
 
 namespace Alisa
 {
-	class Win32Window : public Window
-	{
-	public:
-		Win32Window(const WindowProps& props);
-		virtual ~Win32Window();
+    class Win32Window : public Window
+    {
+    public:
+        Win32Window(const WindowProps& props);
+        virtual ~Win32Window();
 
-		void OnUpdate() override;
- 
-		uint32_t GetWidth() const override { return m_Data.Width; }
-		uint32_t GetHeight() const override { return m_Data.Height; }
+        void OnUpdate() override;
 
-	private:
-		void Init(const WindowProps& props);
-		void Shutdown();
+        uint32_t GetWidth() const override { return m_Data.Width; }
 
-	private:
-		HWND m_Window = nullptr;
-		HINSTANCE m_Instance = nullptr;
-		
-		struct WindowData
-		{
-			std::string Title;
-			uint32_t Width, Height;
-		};
+        uint32_t GetHeight() const override { return m_Data.Height; }
 
-		WindowData m_Data;
+    private:
+        void Init(const WindowProps& props);
 
-	private:
-		friend LRESULT WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
-	};
-}
+        void Shutdown();
+
+    private:
+        HWND m_Window = nullptr;
+        HINSTANCE m_Instance = nullptr;
+
+        struct WindowData
+        {
+            std::string Title;
+            uint32_t    Width;
+            uint32_t    Height;
+        };
+        WindowData m_Data;
+
+    private:
+        friend LRESULT WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
+    };
+} // namespace Alisa

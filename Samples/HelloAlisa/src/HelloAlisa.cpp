@@ -1,17 +1,19 @@
-#include "Alisa/Core/EntryPoint.h"
+#include <Alisa/Alisa.h>
+#include <Alisa/Core/EntryPoint.h>
 
 class HelloAlisaApp : public Alisa::Application
 {
 public:
-	HelloAlisaApp()
-	{
-		ALISA_LOG("Hello Alisa!");
-	}
+    HelloAlisaApp()
+    {
+        ALISA_LOG("Hello Alisa!");
+    }
 
-	~HelloAlisaApp() = default;
+    ~HelloAlisaApp() = default;
 };
 
-Alisa::Application* Alisa::CreateApplication()
+Alisa::Application*
+Alisa::CreateApplication()
 {
-	return new HelloAlisaApp;
+    return new HelloAlisaApp;
 }

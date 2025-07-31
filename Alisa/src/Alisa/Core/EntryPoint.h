@@ -1,19 +1,20 @@
 #pragma once
 
+#include "Alisa/Core/Base.h"
 #include "Alisa/Core/Application.h"
-#include "Alisa/Core/Log.h"
 
 extern Alisa::Application* Alisa::CreateApplication();
 
-int main(int argc, char** argv)
+int
+main(int argc, char** argv)
 {
-	Alisa::Log::Init();
+    Alisa::Log::Init();
 
-	auto app = Alisa::CreateApplication();
+    auto app = Alisa::CreateApplication();
 
-	app->Run();
+    app->Run();
 
-	delete app;
+    delete app;
 
-	return 0;
+    return 0;
 }

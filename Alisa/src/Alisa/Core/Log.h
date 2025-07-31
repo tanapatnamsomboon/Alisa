@@ -1,23 +1,27 @@
 #pragma once
 
 #include "Alisa/Core/Base.h"
+
+#pragma warning(push, 0)
 #include <spdlog/spdlog.h>
+#pragma warning(pop)
 
 namespace Alisa
 {
-	class Log
-	{
-	public:
-		static void Init();
-		
-		inline static std::shared_ptr<spdlog::logger>& GetCoreLogger() { return s_CoreLogger; }
-		inline static std::shared_ptr<spdlog::logger>& GetClientLogger() { return s_ClientLogger; }
+    class Log
+    {
+    public:
+        static void Init();
 
-	private:
-		static std::shared_ptr<spdlog::logger> s_CoreLogger;
-		static std::shared_ptr<spdlog::logger> s_ClientLogger;
-	};
-}
+        inline static std::shared_ptr<spdlog::logger>& GetCoreLogger() { return s_CoreLogger; }
+
+        inline static std::shared_ptr<spdlog::logger>& GetClientLogger() { return s_ClientLogger; }
+
+    private:
+        static std::shared_ptr<spdlog::logger> s_CoreLogger;
+        static std::shared_ptr<spdlog::logger> s_ClientLogger;
+    };
+} // namespace Alisa
 
 #define ALISA_CORE_TRACE(...) ::Alisa::Log::GetCoreLogger()->trace(__VA_ARGS__)
 #define ALISA_CORE_INFO(...)  ::Alisa::Log::GetCoreLogger()->info(__VA_ARGS__)

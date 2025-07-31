@@ -7,23 +7,23 @@ int main(int argc, char** argv);
 
 namespace Alisa
 {
-	class Application
-	{
-	public:
-		Application();
-		virtual ~Application();
+    class Application
+    {
+    public:
+        Application();
+        virtual ~Application();
 
-	private:
-		void Run();
+    private:
+        void Run();
 
-	private:
-		Scope<Window> m_Window;
-		bool m_Running = true;
+    private:
+        Scope<Window> m_Window;
+        bool m_Running = true;
 
-	private:
-		static Application* s_Instance;
-		friend int ::main(int argc, char** argv);
-	};
+    private:
+        static Application* s_Instance;
+        friend int ::main(int argc, char** argv);
+    };
 
-	Application* CreateApplication();
-}
+    Application* CreateApplication();
+} // namespace Alisa
