@@ -2,6 +2,7 @@
 #include "Win32Window.h"
 
 #include "Alisa/Events/ApplicationEvent.h"
+#include "Alisa/Events/KeyEvent.h"
 
 namespace Alisa
 {
@@ -18,11 +19,43 @@ namespace Alisa
             switch (uMsg)
             {
             case WM_CLOSE:
-            {
-                WindowCloseEvent event;
-                window->m_Data.EventCallback(event);
+                if (window->m_Data.EventCallback)
+                {
+                    WindowCloseEvent event;
+                    window->m_Data.EventCallback(event);
+                }
                 return 0;
-            }
+            case WM_SIZE:
+                if (window->m_Data.EventCallback)
+                {
+                    auto width = static_cast<uint32_t>(LOWORD(lParam));
+                    auto height = static_cast<uint32_t>(HIWORD(lParam));
+
+                    WindowResizeEvent event(width, height);
+                    window->m_Data.EventCallback(event);
+                }
+                return 0;
+            case WM_KEYDOWN:
+            case WM_SYSKEYDOWN:
+                if (window->m_Data.EventCallback)
+                {
+                    auto keycode = static_cast<int>(wParam);
+                    bool isRepeat = (lParam & (static_cast<LPARAM>(1) << 30)) != 0;
+
+                    KeyPressedEvent event(keycode, isRepeat);
+                    window->m_Data.EventCallback(event);
+                }
+                return 0;
+            case WM_KEYUP:
+            case WM_SYSKEYUP:
+                if (window->m_Data.EventCallback)
+                {
+                    auto keycode = static_cast<int>(wParam);
+
+                    KeyReleasedEvent event(keycode);
+                    window->m_Data.EventCallback(event);
+                }
+                return 0;
             default:
                 return DefWindowProc(hWnd, uMsg, wParam, lParam);
             }

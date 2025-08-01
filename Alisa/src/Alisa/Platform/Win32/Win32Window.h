@@ -7,7 +7,7 @@
 
 namespace Alisa
 {
-    class Win32Window : public Window
+    class Win32Window final : public Window
     {
     public:
         Win32Window(const WindowProps& props);

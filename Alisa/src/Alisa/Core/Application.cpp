@@ -31,6 +31,21 @@ namespace Alisa
                 return OnWindowClose(ev);
             }
         );
+        dispatcher.Dispatch<WindowResizeEvent>([this](WindowResizeEvent& ev)
+            {
+                return OnWindowResize(ev);
+            }
+        );
+        dispatcher.Dispatch<KeyPressedEvent>([this](KeyPressedEvent& ev)
+            {
+                return OnKeyPressed(ev);
+            }
+        );
+        dispatcher.Dispatch<KeyReleasedEvent>([this](KeyReleasedEvent& ev)
+            {
+                return OnKeyReleased(ev);
+            }
+        );
     }
 
     void Application::Run()
@@ -43,9 +58,46 @@ namespace Alisa
 
     bool Application::OnWindowClose(WindowCloseEvent& e)
     {
-        ALISA_CORE_INFO("WindowCloseEvent received in Application.");
+        // ALISA_CORE_INFO("Application received WindowCloseEvent. Initiating shutdown...");
         m_Running = false;
         return true;
+    }
+
+    bool Application::OnWindowResize(WindowResizeEvent& e)
+    {
+        uint32_t width = e.GetWidth();
+        uint32_t height = e.GetHeight();
+
+        // ALISA_CORE_INFO("Application received WindowResizeEvent: {}x{}", width, height);
+
+        if (width == 0 || height == 0)
+        {
+            m_Minimized = true;
+            // ALISA_CORE_INFO("Window minimized.");
+            return false;
+        }
+
+        m_Minimized = false;
+
+        return false;
+    }
+
+    bool Application::OnKeyPressed(KeyPressedEvent& e)
+    {
+        int keycode = e.GetKeyCode();
+
+        //ALISA_CORE_INFO("Application received KeyPressedEvent: {}", keycode);
+
+        return false;
+    }
+
+    bool Application::OnKeyReleased(KeyReleasedEvent& e)
+    {
+        int keycode = e.GetKeyCode();
+
+        //ALISA_CORE_INFO("Application received KeyReleasedEvent: {}", keycode);
+
+        return false;
     }
 
 } // namespace Alisa

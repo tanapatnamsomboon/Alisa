@@ -4,6 +4,7 @@
 #include "Alisa/Core/Window.h"
 #include "Alisa/Events/Event.h"
 #include "Alisa/Events/ApplicationEvent.h"
+#include "Alisa/Events/KeyEvent.h"
 
 int main(int argc, char** argv);
 
@@ -21,10 +22,14 @@ namespace Alisa
         void Run();
 
         bool OnWindowClose(WindowCloseEvent& e);
+        bool OnWindowResize(WindowResizeEvent& e);
+        bool OnKeyPressed(KeyPressedEvent& e);
+        bool OnKeyReleased(KeyReleasedEvent& e);
 
     private:
         Scope<Window> m_Window;
         bool m_Running = true;
+        bool m_Minimized = false;
 
     private:
         static Application* s_Instance;

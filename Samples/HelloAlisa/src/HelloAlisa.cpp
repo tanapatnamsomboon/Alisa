@@ -1,7 +1,7 @@
 #include <Alisa/Alisa.h>
 #include <Alisa/Core/EntryPoint.h>
 
-class HelloAlisaApp : public Alisa::Application
+class HelloAlisaApp final : public Alisa::Application
 {
 public:
     HelloAlisaApp()
@@ -12,8 +12,7 @@ public:
     ~HelloAlisaApp() = default;
 };
 
-Alisa::Application*
-Alisa::CreateApplication()
+Alisa::Application* Alisa::CreateApplication()
 {
     return new HelloAlisaApp;
 }
