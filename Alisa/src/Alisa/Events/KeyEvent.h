@@ -13,7 +13,7 @@ namespace Alisa
         EVENT_CLASS_CATEGORY(EventCategoryKeyboard | EventCategoryInput)
 
     protected:
-        explicit KeyEvent(const KeyCode keycode)
+        explicit KeyEvent(KeyCode keycode)
             : m_KeyCode(keycode)
         {
         }
@@ -24,7 +24,7 @@ namespace Alisa
     class KeyPressedEvent final : public KeyEvent
     {
     public:
-        explicit KeyPressedEvent(const KeyCode keycode, bool isRepeat = false)
+        explicit KeyPressedEvent(KeyCode keycode, bool isRepeat = false)
             : KeyEvent(keycode), m_IsRepeat(isRepeat)
         {
         }
@@ -47,7 +47,7 @@ namespace Alisa
     class KeyReleasedEvent final : public KeyEvent
     {
     public:
-        explicit KeyReleasedEvent(const KeyCode keycode)
+        explicit KeyReleasedEvent(KeyCode keycode)
             : KeyEvent(keycode)
         {
         }
@@ -65,7 +65,7 @@ namespace Alisa
     class KeyTypedEvent final : public KeyEvent
     {
     public:
-        explicit KeyTypedEvent(const KeyCode keycode)
+        explicit KeyTypedEvent(KeyCode keycode)
             : KeyEvent(keycode)
         {
         }

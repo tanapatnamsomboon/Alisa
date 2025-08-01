@@ -18,6 +18,10 @@ namespace Alisa
 
         virtual void OnEvent(Event& e);
 
+        Window& GetWindow() const { return *m_Window; }
+
+        static Application& Get() { return *s_Instance; }
+
     private:
         void Run();
 

@@ -5,7 +5,7 @@
 
 #ifdef ALISA_ENABLE_ASSERTS
 
-#   define ALISA_INTERNAL_ASSERT_IMPL(type, check, msg, ...) { if(!(check)) { ALISA##type##ERROR(msg, __VA_ARGS__); ALISA_DEBUGBREAK(); } }
+#   define ALISA_INTERNAL_ASSERT_IMPL(type, check, msg, ...) { if(!(check)) { ALISA##type##ERROR(msg, __VA_ARGS__); ALISA_DEBUGBREAK(); std::unreachable(); } }
 #   define ALISA_INTERNAL_ASSERT_WITH_MSG(type, check, ...) ALISA_INTERNAL_ASSERT_IMPL(type, check, "Assertion failed: {0}", __VA_ARGS__)
 #   define ALISA_INTERNAL_ASSERT_NO_MSG(type, check) ALISA_INTERNAL_ASSERT_IMPL(type, check, "Assertion '{0}' failed at {1}:{2}", ALISA_STRINGIFY_MACRO(check), std::source_location::current().file_name(), std::source_location::current().line())
 

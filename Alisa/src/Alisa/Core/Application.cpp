@@ -26,8 +26,8 @@ namespace Alisa
     void Application::OnEvent(Event& e)
     {
         EventDispatcher dispatcher(e);
-        //dispatcher.Dispatch<WindowCloseEvent>(ALISA_BIND_EVENT_FUNC(OnWindowClose));
-        //dispatcher.Dispatch<WindowResizeEvent>(ALISA_BIND_EVENT_FUNC(OnWindowResize));
+        dispatcher.Dispatch<WindowCloseEvent>(ALISA_BIND_EVENT_FUNC(OnWindowClose));
+        dispatcher.Dispatch<WindowResizeEvent>(ALISA_BIND_EVENT_FUNC(OnWindowResize));
         //dispatcher.Dispatch<KeyPressedEvent>(ALISA_BIND_EVENT_FUNC(OnKeyPressed));
         //dispatcher.Dispatch<KeyReleasedEvent>(ALISA_BIND_EVENT_FUNC(OnKeyReleased));
     }
