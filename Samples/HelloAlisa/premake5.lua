@@ -20,6 +20,7 @@ project "HelloAlisa"
 		"src",
 		"%{wks.location}/Alisa/src",
 		"%{wks.location}/vendor/spdlog/include",
+        "%{wks.location}/vendor/magic_enum/include",
 	}
 	
 	links

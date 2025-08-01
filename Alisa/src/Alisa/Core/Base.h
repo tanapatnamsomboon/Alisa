@@ -22,6 +22,8 @@
 
 #define ALISA_BIT(x) (1 << x)
 
+#define ALISA_BIND_EVENT_FUNC(func) [this](auto&&... args) -> decltype(auto) { return this->func(std::forward<decltype(args)>(args)...); }
+
 namespace Alisa
 {
     template<typename T>
@@ -41,5 +43,6 @@ namespace Alisa
     }
 } // namespace Alisa
 
+#include "Alisa/Core/Types.h"
 #include "Alisa/Core/Log.h"
 #include "Alisa/Core/Assert.h"

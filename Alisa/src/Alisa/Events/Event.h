@@ -27,7 +27,7 @@ namespace Alisa
     public:
         virtual EventType   GetEventType() const     = 0;
         virtual const char* GetName() const          = 0;
-        virtual int         GetCategoryFlags() const = 0;
+        virtual i32         GetCategoryFlags() const = 0;
         virtual std::string ToString() const  { return GetName(); }
 
         bool IsInCategory(EventCategory category) const
@@ -67,5 +67,5 @@ namespace Alisa
         virtual const char* GetName() const override { return #type; }
 
 #   define EVENT_CLASS_CATEGORY(category) \
-        virtual int GetCategoryFlags() const override { return category; }
+        virtual i32 GetCategoryFlags() const override { return category; }
 }

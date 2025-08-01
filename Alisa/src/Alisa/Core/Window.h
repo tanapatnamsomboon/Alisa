@@ -8,10 +8,10 @@ namespace Alisa
     struct WindowProps
     {
         std::string Title;
-        uint32_t    Width;
-        uint32_t    Height;
+        u32         Width;
+        u32         Height;
 
-        WindowProps(const std::string& title  = "Alisa Engine", uint32_t width  = 1600, uint32_t height = 900)
+        WindowProps(const std::string& title  = "Alisa Engine", u32 width  = 1600, u32 height = 900)
             : Title(title), Width(width), Height(height)
         {
         }
@@ -28,8 +28,8 @@ namespace Alisa
 
         virtual void OnUpdate() = 0;
 
-        virtual uint32_t GetWidth() const = 0;
-        virtual uint32_t GetHeight() const = 0;
+        virtual u32 GetWidth() const = 0;
+        virtual u32 GetHeight() const = 0;
 
         virtual void* GetNativeWindow() const = 0;
 

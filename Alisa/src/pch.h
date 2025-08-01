@@ -15,6 +15,7 @@
 #include <unordered_map>
 #include <unordered_set>
 
+#include "Alisa/Core/Types.h"
 #include "Alisa/Core/Base.h"
 #include "Alisa/Core/Log.h"
 

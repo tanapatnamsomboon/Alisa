@@ -15,8 +15,8 @@ namespace Alisa
 
         void OnUpdate() override;
 
-        uint32_t GetWidth() const override { return m_Data.Width; }
-        uint32_t GetHeight() const override { return m_Data.Height; }
+        u32 GetWidth() const override { return m_Data.Width; }
+        u32 GetHeight() const override { return m_Data.Height; }
 
         void* GetNativeWindow() const override { return m_Window; }
 
@@ -33,8 +33,8 @@ namespace Alisa
         struct WindowData
         {
             std::string     Title;
-            uint32_t        Width;
-            uint32_t        Height;
+            u32             Width;
+            u32             Height;
             EventCallbackFn EventCallback;
         };
         WindowData m_Data;

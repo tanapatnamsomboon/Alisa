@@ -16,13 +16,13 @@ namespace Alisa
     class WindowResizeEvent final : public Event
     {
     public:
-        WindowResizeEvent(const uint32_t width, const uint32_t height)
+        WindowResizeEvent(const u32 width, const u32 height)
             : m_Width(width), m_Height(height)
         {
         }
 
-        uint32_t GetWidth() const { return m_Width; }
-        uint32_t GetHeight() const { return m_Height; }
+        u32 GetWidth() const { return m_Width; }
+        u32 GetHeight() const { return m_Height; }
 
         std::string ToString() const override
         {
@@ -35,7 +35,7 @@ namespace Alisa
         EVENT_CLASS_CATEGORY(EventCategoryApplication)
 
     private:
-        uint32_t m_Width;
-        uint32_t m_Height;
+        u32 m_Width;
+        u32 m_Height;
     };
 }

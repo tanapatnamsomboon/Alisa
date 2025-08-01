@@ -26,26 +26,10 @@ namespace Alisa
     void Application::OnEvent(Event& e)
     {
         EventDispatcher dispatcher(e);
-        dispatcher.Dispatch<WindowCloseEvent>([this](WindowCloseEvent& ev)
-            {
-                return OnWindowClose(ev);
-            }
-        );
-        dispatcher.Dispatch<WindowResizeEvent>([this](WindowResizeEvent& ev)
-            {
-                return OnWindowResize(ev);
-            }
-        );
-        dispatcher.Dispatch<KeyPressedEvent>([this](KeyPressedEvent& ev)
-            {
-                return OnKeyPressed(ev);
-            }
-        );
-        dispatcher.Dispatch<KeyReleasedEvent>([this](KeyReleasedEvent& ev)
-            {
-                return OnKeyReleased(ev);
-            }
-        );
+        //dispatcher.Dispatch<WindowCloseEvent>(ALISA_BIND_EVENT_FUNC(OnWindowClose));
+        //dispatcher.Dispatch<WindowResizeEvent>(ALISA_BIND_EVENT_FUNC(OnWindowResize));
+        //dispatcher.Dispatch<KeyPressedEvent>(ALISA_BIND_EVENT_FUNC(OnKeyPressed));
+        //dispatcher.Dispatch<KeyReleasedEvent>(ALISA_BIND_EVENT_FUNC(OnKeyReleased));
     }
 
     void Application::Run()
@@ -58,7 +42,6 @@ namespace Alisa
 
     bool Application::OnWindowClose(WindowCloseEvent& e)
     {
-        // ALISA_CORE_INFO("Application received WindowCloseEvent. Initiating shutdown...");
         m_Running = false;
         return true;
     }
@@ -68,12 +51,9 @@ namespace Alisa
         uint32_t width = e.GetWidth();
         uint32_t height = e.GetHeight();
 
-        // ALISA_CORE_INFO("Application received WindowResizeEvent: {}x{}", width, height);
-
         if (width == 0 || height == 0)
         {
             m_Minimized = true;
-            // ALISA_CORE_INFO("Window minimized.");
             return false;
         }
 
@@ -84,18 +64,14 @@ namespace Alisa
 
     bool Application::OnKeyPressed(KeyPressedEvent& e)
     {
-        int keycode = e.GetKeyCode();
-
-        //ALISA_CORE_INFO("Application received KeyPressedEvent: {}", keycode);
+        KeyCode keycode = e.GetKeyCode();
 
         return false;
     }
 
     bool Application::OnKeyReleased(KeyReleasedEvent& e)
     {
-        int keycode = e.GetKeyCode();
-
-        //ALISA_CORE_INFO("Application received KeyReleasedEvent: {}", keycode);
+        KeyCode keycode = e.GetKeyCode();
 
         return false;
     }

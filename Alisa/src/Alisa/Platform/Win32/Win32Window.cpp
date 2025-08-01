@@ -6,6 +6,8 @@
 
 namespace Alisa
 {
+    // FIXME: Currently can not handle left and right shift, alt, ctrl.
+    // it recieve VK_SHIFT, VK_ALT, VK_CTRL instead
     LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
     {
         if (uMsg == WM_NCCREATE)
@@ -28,8 +30,8 @@ namespace Alisa
             case WM_SIZE:
                 if (window->m_Data.EventCallback)
                 {
-                    auto width = static_cast<uint32_t>(LOWORD(lParam));
-                    auto height = static_cast<uint32_t>(HIWORD(lParam));
+                    auto width = static_cast<u32>(LOWORD(lParam));
+                    auto height = static_cast<u32>(HIWORD(lParam));
 
                     WindowResizeEvent event(width, height);
                     window->m_Data.EventCallback(event);
@@ -39,7 +41,7 @@ namespace Alisa
             case WM_SYSKEYDOWN:
                 if (window->m_Data.EventCallback)
                 {
-                    auto keycode = static_cast<int>(wParam);
+                    auto keycode = static_cast<KeyCode>(wParam);
                     bool isRepeat = (lParam & (static_cast<LPARAM>(1) << 30)) != 0;
 
                     KeyPressedEvent event(keycode, isRepeat);
@@ -50,7 +52,7 @@ namespace Alisa
             case WM_SYSKEYUP:
                 if (window->m_Data.EventCallback)
                 {
-                    auto keycode = static_cast<int>(wParam);
+                    auto keycode = static_cast<KeyCode>(wParam);
 
                     KeyReleasedEvent event(keycode);
                     window->m_Data.EventCallback(event);
@@ -59,7 +61,7 @@ namespace Alisa
             case WM_CHAR:
                 if (window->m_Data.EventCallback)
                 {
-                    auto keycode = static_cast<int>(wParam);
+                    auto keycode = static_cast<KeyCode>(wParam);
 
                     KeyTypedEvent event(keycode);
                     window->m_Data.EventCallback(event);

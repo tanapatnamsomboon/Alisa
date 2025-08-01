@@ -22,11 +22,12 @@ project "Alisa"
 	{
 		"src",
 		"%{wks.location}/vendor/spdlog/include",
+        "%{wks.location}/vendor/magic_enum/include",
 	}
 
 	filter "system:windows"
 		systemversion "latest"
-		buildoptions 
+		buildoptions
 		{
 			"/utf-8",
 		}

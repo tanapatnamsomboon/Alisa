@@ -1,29 +1,30 @@
 #pragma once
 
 #include "Alisa/Events/Event.h"
+#include "Alisa/Core/KeyCodes.h"
 
 namespace Alisa
 {
     class KeyEvent : public Event
     {
     public:
-        int GetKeyCode() const { return m_KeyCode; }
+        KeyCode GetKeyCode() const { return m_KeyCode; }
 
         EVENT_CLASS_CATEGORY(EventCategoryKeyboard | EventCategoryInput)
 
     protected:
-        explicit KeyEvent(const int keycode)
+        explicit KeyEvent(const KeyCode keycode)
             : m_KeyCode(keycode)
         {
         }
 
-        int m_KeyCode;
+        KeyCode m_KeyCode;
     };
 
     class KeyPressedEvent final : public KeyEvent
     {
     public:
-        explicit KeyPressedEvent(const int keycode, bool isRepeat = false)
+        explicit KeyPressedEvent(const KeyCode keycode, bool isRepeat = false)
             : KeyEvent(keycode), m_IsRepeat(isRepeat)
         {
         }
@@ -33,7 +34,7 @@ namespace Alisa
         std::string ToString() const override
         {
             std::stringstream ss;
-            ss << "KeyPressed: " << m_KeyCode << " (" << m_IsRepeat << " repeats)";
+            ss << "KeyPressed: " << KeyCodeToString(m_KeyCode) << " (" << m_IsRepeat << " repeats)";
             return ss.str();
         }
 
@@ -46,7 +47,7 @@ namespace Alisa
     class KeyReleasedEvent final : public KeyEvent
     {
     public:
-        explicit KeyReleasedEvent(const int keycode)
+        explicit KeyReleasedEvent(const KeyCode keycode)
             : KeyEvent(keycode)
         {
         }
@@ -54,7 +55,7 @@ namespace Alisa
         std::string ToString() const override
         {
             std::stringstream ss;
-            ss << "KeyReleased: " << m_KeyCode;
+            ss << "KeyReleased: " << KeyCodeToString(m_KeyCode);
             return ss.str();
         }
 
@@ -64,7 +65,7 @@ namespace Alisa
     class KeyTypedEvent final : public KeyEvent
     {
     public:
-        explicit KeyTypedEvent(const int keycode)
+        explicit KeyTypedEvent(const KeyCode keycode)
             : KeyEvent(keycode)
         {
         }
@@ -72,10 +73,10 @@ namespace Alisa
         std::string ToString() const override
         {
             std::stringstream ss;
-            ss << "KeyTyped: " << m_KeyCode;
+            ss << "KeyTyped: " << KeyCodeToString(m_KeyCode);
             return ss.str();
         }
 
-        EVENT_CLASS_TYPE(KeyTyped);
+        EVENT_CLASS_TYPE(KeyTyped)
     };
 }
