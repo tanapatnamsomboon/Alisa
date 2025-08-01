@@ -56,6 +56,15 @@ namespace Alisa
                     window->m_Data.EventCallback(event);
                 }
                 return 0;
+            case WM_CHAR:
+                if (window->m_Data.EventCallback)
+                {
+                    auto keycode = static_cast<int>(wParam);
+
+                    KeyTypedEvent event(keycode);
+                    window->m_Data.EventCallback(event);
+                }
+                return 0;
             default:
                 return DefWindowProc(hWnd, uMsg, wParam, lParam);
             }
