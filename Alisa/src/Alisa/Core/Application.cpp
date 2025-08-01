@@ -1,6 +1,8 @@
 #include "pch.h"
 #include "Application.h"
 
+#include <chrono>
+
 namespace Alisa
 {
     Application* Application::s_Instance = nullptr;
@@ -11,11 +13,9 @@ namespace Alisa
         s_Instance = this;
 
         m_Window = Window::Create();
-        m_Window->SetEventCallback([this](Event& e)
-            {
-                this->OnEvent(e);
-            }
-        );
+        m_Window->SetEventCallback(ALISA_BIND_EVENT_FUNC(OnEvent));
+
+        m_Input = Input::Create();
     }
 
     Application::~Application()
@@ -30,12 +30,47 @@ namespace Alisa
         dispatcher.Dispatch<WindowResizeEvent>(ALISA_BIND_EVENT_FUNC(OnWindowResize));
         //dispatcher.Dispatch<KeyPressedEvent>(ALISA_BIND_EVENT_FUNC(OnKeyPressed));
         //dispatcher.Dispatch<KeyReleasedEvent>(ALISA_BIND_EVENT_FUNC(OnKeyReleased));
+
+        for (auto it = m_LayerStack.rbegin(); it != m_LayerStack.rend(); ++it)
+        {
+            if (e.m_Handled)
+            {
+                break;
+            }
+            (*it)->OnEvent(e);
+        }
+    }
+
+    void Application::PushLayer(Layer* layer)
+    {
+        m_LayerStack.PushLayer(layer);
+        layer->OnAttach();
+    }
+
+    void Application::PushOverlay(Layer* layer)
+    {
+        m_LayerStack.PushOverlay(layer);
+        layer->OnAttach();
     }
 
     void Application::Run()
     {
+        auto lastTime = std::chrono::high_resolution_clock::now();
+
         while (m_Running)
         {
+            auto now = std::chrono::high_resolution_clock::now();
+            const f32 time = std::chrono::duration<f32>(now - lastTime).count();
+            lastTime = now;
+
+            TimeStep deltaTime(time);
+
+            for (Layer* layer : m_LayerStack)
+            {
+                layer->OnUpdate(deltaTime);
+            }
+
+
             m_Window->OnUpdate();
         }
     }
