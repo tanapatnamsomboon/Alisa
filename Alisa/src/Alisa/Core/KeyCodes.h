@@ -55,8 +55,8 @@ namespace Alisa
         MaxEnum      = 0xFF,
     };
 
-    inline std::string KeyCodeToString(KeyCode code)
+    inline std::string KeyCodeToString(KeyCode keyCode)
     {
-        return std::string(magic_enum::enum_name(code));
+        return std::string(magic_enum::enum_name(keyCode));
     }
 }

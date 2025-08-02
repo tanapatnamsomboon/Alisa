@@ -11,8 +11,8 @@ namespace Alisa
     public:
         virtual ~Input() = default;
 
-        virtual bool IsKeyPressed(KeyCode code) const = 0;
-        virtual bool IsMouseButtonPressed(MouseCode button) const = 0;
+        virtual bool IsKeyPressed(KeyCode keyCode) const = 0;
+        virtual bool IsMouseButtonPressed(MouseCode mouseCode) const = 0;
 
         virtual float GetMouseX() const = 0;
         virtual float GetMouseY() const = 0;

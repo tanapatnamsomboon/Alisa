@@ -9,14 +9,14 @@ namespace Alisa
     {
     }
 
-    bool Win32Input::IsKeyPressed(const KeyCode code) const
+    bool Win32Input::IsKeyPressed(const KeyCode keyCode) const
     {
-        return GetAsyncKeyState(static_cast<int>(code)) & 0x8000;
+        return GetAsyncKeyState(static_cast<int>(keyCode)) & 0x8000;
     }
 
-    bool Win32Input::IsMouseButtonPressed(const MouseCode code) const
+    bool Win32Input::IsMouseButtonPressed(const MouseCode mouseCode) const
     {
-        return GetAsyncKeyState(static_cast<int>(code)) & 0x8000;
+        return GetAsyncKeyState(static_cast<int>(mouseCode)) & 0x8000;
     }
 
     float Win32Input::GetMouseX() const

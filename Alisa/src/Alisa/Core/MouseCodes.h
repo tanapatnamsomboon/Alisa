@@ -17,8 +17,8 @@ namespace Alisa
         MaxEnum      = 0xFF
     };
 
-    inline std::string MouseCodeToString(MouseCode code)
+    inline std::string MouseCodeToString(MouseCode mouseCode)
     {
-        return std::string(magic_enum::enum_name(code));
+        return std::string(magic_enum::enum_name(mouseCode));
     }
 }
