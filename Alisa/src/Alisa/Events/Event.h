@@ -8,7 +8,7 @@ namespace Alisa
     {
         None = 0,
         WindowClose, WindowResize,
-        KeyPressed, KeyReleased, KeyTyped,
+        KeyPressed, KeyReleased, CharacterTyped,
         MouseButtonPressed, MouseButtonReleased, MouseMoved, MouseScrolled
     };
 

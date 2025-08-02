@@ -3,75 +3,218 @@
 
 #include "Alisa/Events/ApplicationEvent.h"
 #include "Alisa/Events/KeyEvent.h"
+#include "Alisa/Events/MouseEvent.h"
+
+#include <Windowsx.h>
 
 namespace Alisa
 {
     // FIXME: Currently can not handle left and right shift, alt, ctrl.
-    // it recieve VK_SHIFT, VK_ALT, VK_CTRL instead
+    // it receive VK_SHIFT, VK_ALT, VK_CTRL instead
     LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
     {
         if (uMsg == WM_NCCREATE)
         {
-            const auto create = reinterpret_cast<LPCREATESTRUCT>(lParam);
-            SetWindowLongPtr(hWnd, GWLP_USERDATA, reinterpret_cast<LONG_PTR>(create->lpCreateParams));
+            const auto* const createStruct = reinterpret_cast<LPCREATESTRUCT>(lParam);
+            if (createStruct && createStruct->lpCreateParams)
+            {
+                SetWindowLongPtr(hWnd, GWLP_USERDATA, reinterpret_cast<LONG_PTR>(createStruct->lpCreateParams));
+                return TRUE;
+            }
+            return FALSE;
         }
 
-        if (const auto* window = reinterpret_cast<Win32Window*>(GetWindowLongPtr(hWnd, GWLP_USERDATA)))
+        const auto* window = reinterpret_cast<Win32Window*>(GetWindowLongPtr(hWnd, GWLP_USERDATA));
+        if (!window)
         {
-            switch (uMsg)
+            return DefWindowProc(hWnd, uMsg, wParam, lParam);
+        }
+
+        const auto& eventCallback = window->m_Data.EventCallback;
+        if (!eventCallback)
+        {
+            return DefWindowProc(hWnd, uMsg, wParam, lParam);
+        }
+
+        switch (uMsg)
+        {
+        case WM_CLOSE:
+        {
+            WindowCloseEvent event;
+            eventCallback(event);
+
+            return 0;
+        }
+        case WM_SIZE:
+        {
+            const auto width = static_cast<u32>(LOWORD(lParam));
+            const auto height = static_cast<u32>(HIWORD(lParam));
+
+            WindowResizeEvent event(width, height);
+            eventCallback(event);
+
+            return 0;
+        }
+        case WM_KEYDOWN:
+        case WM_SYSKEYDOWN:
+        {
+            const auto keyCode = static_cast<KeyCode>(wParam);
+            bool isRepeat = (lParam & (1ULL << 30)) != 0;
+
+            KeyPressedEvent event(keyCode, isRepeat);
+            eventCallback(event);
+
+            return 0;
+        }
+        case WM_KEYUP:
+        case WM_SYSKEYUP:
+        {
+            const auto keyCode = static_cast<KeyCode>(wParam);
+
+            KeyReleasedEvent event(keyCode);
+            eventCallback(event);
+
+            return 0;
+        }
+        case WM_CHAR:
+        {
+            const auto character = static_cast<utf32>(wParam);
+
+            CharacterTypedEvent event(character);
+            eventCallback(event);
+
+            return 0;
+        }
+        case WM_MOUSEMOVE:
+        {
+            const auto x = static_cast<f32>(static_cast<short>(GET_X_LPARAM(lParam)));
+            const auto y = static_cast<f32>(static_cast<short>(GET_Y_LPARAM(lParam)));
+
+            MouseMovedEvent event(x, y);
+            eventCallback(event);
+
+            return 0;
+        }
+        case WM_MOUSEWHEEL:
+        {
+            f32 delta = GET_WHEEL_DELTA_WPARAM(wParam) / static_cast<f32>(WHEEL_DELTA);
+
+            MouseScrolledEvent event(0.0f, delta);
+            eventCallback(event);
+
+            return 0;
+        }
+        case WM_LBUTTONDOWN:
+        {
+            SetCapture(hWnd);
+
+            MouseButtonPressedEvent event(MouseCode::ButtonLeft);
+            eventCallback(event);
+
+            return 0;
+        }
+        case WM_RBUTTONDOWN:
+        {
+            MouseButtonPressedEvent event(MouseCode::ButtonRight);
+            eventCallback(event);
+
+            return 0;
+        }
+        case WM_MBUTTONDOWN:
+        {
+            MouseButtonPressedEvent event(MouseCode::ButtonMiddle);
+            eventCallback(event);
+
+            return 0;
+        }
+        case WM_XBUTTONDOWN:
+        {
+            const WORD xButton = GET_XBUTTON_WPARAM(wParam);
+            MouseCode mouseCode = MouseCode::Unknown;
+
+            switch (xButton)
             {
-            case WM_CLOSE:
-                if (window->m_Data.EventCallback)
-                {
-                    WindowCloseEvent event;
-                    window->m_Data.EventCallback(event);
-                }
-                return 0;
-            case WM_SIZE:
-                if (window->m_Data.EventCallback)
-                {
-                    auto width = static_cast<u32>(LOWORD(lParam));
-                    auto height = static_cast<u32>(HIWORD(lParam));
-
-                    WindowResizeEvent event(width, height);
-                    window->m_Data.EventCallback(event);
-                }
-                return 0;
-            case WM_KEYDOWN:
-            case WM_SYSKEYDOWN:
-                if (window->m_Data.EventCallback)
-                {
-                    auto keycode = static_cast<KeyCode>(wParam);
-                    bool isRepeat = (lParam & (static_cast<LPARAM>(1) << 30)) != 0;
-
-                    KeyPressedEvent event(keycode, isRepeat);
-                    window->m_Data.EventCallback(event);
-                }
-                return 0;
-            case WM_KEYUP:
-            case WM_SYSKEYUP:
-                if (window->m_Data.EventCallback)
-                {
-                    auto keycode = static_cast<KeyCode>(wParam);
-
-                    KeyReleasedEvent event(keycode);
-                    window->m_Data.EventCallback(event);
-                }
-                return 0;
-            case WM_CHAR:
-                if (window->m_Data.EventCallback)
-                {
-                    auto keycode = static_cast<KeyCode>(wParam);
-
-                    KeyTypedEvent event(keycode);
-                    window->m_Data.EventCallback(event);
-                }
-                return 0;
+            case XBUTTON1:
+                mouseCode = MouseCode::Button4;
+                break;
+            case XBUTTON2:
+                mouseCode = MouseCode::Button5;
+                break;
             default:
+                // Unknown X button (Newer mice may have additional buttons) let Windows handle.
                 return DefWindowProc(hWnd, uMsg, wParam, lParam);
             }
+
+            MouseButtonPressedEvent event(mouseCode);
+            eventCallback(event);
+
+            return TRUE;
+        }
+        case WM_LBUTTONUP:
+        {
+            ReleaseCapture();
+
+            MouseButtonReleasedEvent event(MouseCode::ButtonLeft);
+            eventCallback(event);
+
+            return 0;
+        }
+        case WM_RBUTTONUP:
+        {
+            MouseButtonReleasedEvent event(MouseCode::ButtonRight);
+            eventCallback(event);
+
+            return 0;
+        }
+        case WM_MBUTTONUP:
+        {
+            MouseButtonReleasedEvent event(MouseCode::ButtonMiddle);
+            eventCallback(event);
+
+            return 0;
+        }
+        case WM_XBUTTONUP:
+        {
+            const WORD xButton = GET_XBUTTON_WPARAM(wParam);
+            MouseCode mouseCode = MouseCode::Unknown;
+
+            switch (xButton)
+            {
+            case XBUTTON1:
+                mouseCode = MouseCode::Button4;
+                break;
+            case XBUTTON2:
+                mouseCode = MouseCode::Button5;
+                break;
+            default:
+                // Unknown X button (Newer mice may have additional buttons) let Windows handle.
+                return DefWindowProc(hWnd, uMsg, wParam, lParam); 
+            }
+
+            MouseButtonReleasedEvent event(mouseCode);
+            eventCallback(event);
+
+            return TRUE;
+        }
+        case WM_DESTROY:
+        {
+            WindowCloseEvent event;
+            eventCallback(event);
+
+            PostQuitMessage(0);
+            return 0;
+        }
+        case WM_ACTIVATE:
+        {
+            const bool isActivated = (LOWORD(wParam) != WA_INACTIVE);
+            // Window focus events here
+            break;
+        }
+        default:
+            return DefWindowProc(hWnd, uMsg, wParam, lParam);
         }
 
+        // It should not have reached to this point.
         return DefWindowProc(hWnd, uMsg, wParam, lParam);
     }
 

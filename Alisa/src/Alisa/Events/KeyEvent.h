@@ -62,21 +62,28 @@ namespace Alisa
         EVENT_CLASS_TYPE(KeyReleased)
     };
 
-    class KeyTypedEvent final : public KeyEvent
+    class CharacterTypedEvent final : public Event
     {
     public:
-        explicit KeyTypedEvent(KeyCode keycode)
-            : KeyEvent(keycode)
+        explicit CharacterTypedEvent(utf32 character)
+            : m_Character(character)
         {
         }
 
+        utf32 GetCharacter() const { return m_Character; }
+
+        // FIXME: Output utf32 character. I cast to char for now
         std::string ToString() const override
         {
             std::stringstream ss;
-            ss << "KeyTyped: " << KeyCodeToString(m_KeyCode);
+            ss << "CharacterTyped: " << static_cast<char>(m_Character);
             return ss.str();
         }
 
-        EVENT_CLASS_TYPE(KeyTyped)
+        EVENT_CLASS_TYPE(CharacterTyped)
+        EVENT_CLASS_CATEGORY(EventCategoryKeyboard | EventCategoryInput)
+
+    private:
+        utf32 m_Character;
     };
 }

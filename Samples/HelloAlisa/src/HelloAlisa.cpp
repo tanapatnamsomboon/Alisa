@@ -14,9 +14,11 @@ public:
 
     void OnEvent(Alisa::Event& e) override
     {
-        if (Alisa::Application::Get().GetInput().IsKeyPressed(Alisa::KeyCode::Space))
+        const auto& input = Alisa::Application::Get().GetInput();
+
+        if (e.GetEventType() == Alisa::EventType::CharacterTyped)
         {
-            ALISA_CORE_TRACE("Space!");
+            ALISA_INFO("{}", e.ToString());
         }
     }
 };
