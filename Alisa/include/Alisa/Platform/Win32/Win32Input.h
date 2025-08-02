@@ -9,8 +9,8 @@ namespace Alisa
     public:
         Win32Input();
 
-        bool IsKeyPressed(KeyCode code) const override;
-        bool IsMouseButtonPressed(MouseCode button) const override;
+        bool IsKeyPressed(KeyCode keyCode) const override;
+        bool IsMouseButtonPressed(MouseCode mouseCode) const override;
 
         float GetMouseX() const override;
         float GetMouseY() const override;

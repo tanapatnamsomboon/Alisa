@@ -65,8 +65,8 @@ namespace Alisa
         EVENT_CLASS_CATEGORY(EventCategoryMouse | EventCategoryInput | EventCategoryMouseButton)
 
     protected:
-        explicit MouseButtonEvent(MouseCode code)
-            : m_MouseCode(code)
+        explicit MouseButtonEvent(MouseCode mouseCode)
+            : m_MouseCode(mouseCode)
         {
         }
 
@@ -76,8 +76,8 @@ namespace Alisa
     class MouseButtonPressedEvent final : public MouseButtonEvent
     {
     public:
-        MouseButtonPressedEvent(MouseCode code)
-            : MouseButtonEvent(code)
+        MouseButtonPressedEvent(MouseCode mouseCode)
+            : MouseButtonEvent(mouseCode)
         {
         }
 
@@ -94,8 +94,8 @@ namespace Alisa
     class MouseButtonReleasedEvent final : public MouseButtonEvent
     {
     public:
-        MouseButtonReleasedEvent(MouseCode code)
-            : MouseButtonEvent(code)
+        MouseButtonReleasedEvent(MouseCode mouseCode)
+            : MouseButtonEvent(mouseCode)
         {
         }
 

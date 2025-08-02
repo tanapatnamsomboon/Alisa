@@ -14,13 +14,13 @@ project "Alisa"
 
 	files
 	{
-		"src/**.h",
+		"include/**.h",
 		"src/**.cpp",
 	}
 	
 	includedirs
 	{
-		"src",
+		"include",
 		"%{wks.location}/vendor/spdlog/include",
         "%{wks.location}/vendor/magic_enum/include",
 	}
