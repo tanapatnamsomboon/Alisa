@@ -1,6 +1,6 @@
 [submodule "vendor/spdlog"]
-	path = vendor/spdlog
+	path = thirdparty/spdlog
 	url = https://github.com/gabime/spdlog.git
 [submodule "vendor/magic_enum"]
-	path = vendor/magic_enum
+	path = thirdparty/magic_enum
 	url = https://github.com/Neargye/magic_enum
