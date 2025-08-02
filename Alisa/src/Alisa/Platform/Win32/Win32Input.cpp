@@ -16,7 +16,7 @@ namespace Alisa
 
     bool Win32Input::IsMouseButtonPressed(const MouseCode code) const
     {
-        return GetAsyncKeyState(VK_LBUTTON + static_cast<int>(code)) & 0x8000;
+        return GetAsyncKeyState(static_cast<int>(code)) & 0x8000;
     }
 
     float Win32Input::GetMouseX() const
