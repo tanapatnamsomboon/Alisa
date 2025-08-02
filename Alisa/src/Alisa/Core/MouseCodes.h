@@ -13,7 +13,7 @@ namespace Alisa
         Button4      = 0x05,
         Button5      = 0x06,
 
-        Unknown      = 0xFF,
+        Unknown      = 0x00,
         MaxEnum      = 0xFF
     };
 

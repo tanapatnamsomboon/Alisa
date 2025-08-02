@@ -51,7 +51,7 @@ namespace Alisa
         UpArrow      = 0x26,
         DownArrow    = 0x28,
 
-        Unknown      = 0xFF,
+        Unknown      = 0x00,
         MaxEnum      = 0xFF,
     };
 
